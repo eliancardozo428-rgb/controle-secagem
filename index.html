@@ -1,532 +1,78 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle de Secagem</title>
-
 <style>
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#eef2f5;
-    color:#17212b;
-}
-
-header{
-    background:linear-gradient(135deg,#123d32,#087b55);
-    color:white;
-    padding:22px 26px;
-    box-shadow:0 4px 12px #0003;
-}
-
-header h1{
-    margin:0;
-    font-size:clamp(23px,4vw,34px);
-    letter-spacing:1px;
-}
-
-header p{margin:8px 0 0;opacity:.88}
-
-main{width:min(1200px,94%);margin:28px auto}
-
-.section-title{margin:28px 0 18px;font-size:21px}
-
-.dryer-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:22px;
-}
-
-.dryer{
-    min-height:125px;
-    border:1px solid #ffffff70;
-    border-radius:19px;
-    color:white;
-    font-size:21px;
-    font-weight:800;
-    cursor:pointer;
-    text-shadow:0 2px 3px #0005;
-    box-shadow:0 8px 0 #0003,0 13px 18px #0002,inset 0 3px 6px #ffffff70;
-    transition:.13s;
-}
-
-.dryer:hover{filter:brightness(1.08);transform:translateY(-2px)}
-.dryer:active{transform:translateY(6px);box-shadow:0 2px 0 #0003,inset 0 3px 5px #0002}
-
-.d1{background:linear-gradient(145deg,#65d94b,#218b25)}
-.d2{background:linear-gradient(145deg,#48baff,#1262c5)}
-.d3{background:linear-gradient(145deg,#bd83ff,#7133bd)}
-.d4{background:linear-gradient(145deg,#ffbd55,#d66a0b)}
-.d5{background:linear-gradient(145deg,#42d7c1,#087f78)}
-.d6{background:linear-gradient(145deg,#ff7777,#b51e36)}
-.d7{background:linear-gradient(145deg,#657dff,#2839a7)}
-
-.menu-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:14px;
-}
-
-.menu-button{
-    padding:18px;
-    border:0;
-    border-radius:13px;
-    background:linear-gradient(145deg,#fff,#dce4e9);
-    color:#20312e;
-    font-weight:800;
-    font-size:15px;
-    cursor:pointer;
-    box-shadow:0 5px 0 #aeb9c0,0 8px 12px #0002;
-    transition:.12s;
-}
-
-.menu-button:active{transform:translateY(3px);box-shadow:0 2px 0 #aeb9c0}
-
-.hidden{display:none!important}
-
-.panel-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    flex-wrap:wrap;
-    margin-bottom:24px;
-}
-
-.back-button{
-    background:#203b35;
-    color:white;
-    border:0;
-    border-radius:10px;
-    padding:13px 19px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.panel-heading{margin:0;font-size:clamp(23px,4vw,32px)}
-.panel-subtitle{color:#63717b;margin:8px 0 22px}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:14px;
-    margin-bottom:26px;
-}
-
-.stat{
-    background:white;
-    border-radius:13px;
-    padding:20px;
-    box-shadow:0 3px 12px #0000000c;
-    border-left:5px solid #16865f;
-}
-
-.stat small{
-    display:block;
-    color:#71808a;
-    font-weight:bold;
-    margin-bottom:9px;
-}
-
-.stat strong{font-size:21px}
-
-.panel-section{
-    background:white;
-    border-radius:15px;
-    padding:22px;
-    margin:18px 0;
-    box-shadow:0 3px 12px #0000000c;
-}
-
-.panel-section h3{margin:0 0 17px}
-
-.module-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:13px;
-}
-
-.module{
-    background:linear-gradient(145deg,#fff,#e8eef1);
-    border:1px solid #dce3e7;
-    border-radius:12px;
-    padding:18px;
-    text-align:left;
-    cursor:pointer;
-    font-weight:bold;
-    color:#203b35;
-    box-shadow:0 3px 0 #c4cdd2;
-    transition:.12s;
-}
-
-.module:hover{transform:translateY(-2px);background:#f2f8f5}
-.module:active{transform:translateY(2px);box-shadow:0 1px 0 #c4cdd2}
-
-.module span{
-    display:block;
-    font-size:12px;
-    color:#75828b;
-    font-weight:normal;
-    margin-top:7px;
-}
-
-.silo-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:11px;
-}
-
-.silo{
-    border:1px solid #dce3e7;
-    border-radius:10px;
-    padding:15px;
-    background:#f8fafb;
-}
-
-.silo strong{
-    display:block;
-    font-size:17px;
-    margin-bottom:7px;
-}
-
-.silo small{color:#71808a;line-height:1.5}
-
-.notice{
-    padding:15px;
-    border-radius:10px;
-    background:#fff7e5;
-    border:1px solid #f0d89b;
-    color:#71541c;
-    line-height:1.5;
-}
-
-#module-panel{
-    background:white;
-    border-radius:15px;
-    padding:24px;
-    margin-top:22px;
-    box-shadow:0 3px 12px #0000000c;
-}
-
-#module-panel h3{margin-top:0}
-
-footer{
-    text-align:center;
-    padding:25px;
-    color:#66727c;
-    font-size:13px;
-}
-
-@media(max-width:600px){
-    main{width:92%;margin:20px auto}
-    header{padding:20px}
-    .dryer{min-height:100px;font-size:18px}
-    .panel-section{padding:16px}
-    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .stat{padding:14px}
-    .stat strong{font-size:17px}
-}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef2f5;color:#17212b}header{background:linear-gradient(135deg,#123d32,#087b55);color:#fff;padding:22px 26px;box-shadow:0 4px 12px #0003}header h1{margin:0;font-size:clamp(23px,4vw,34px);letter-spacing:1px}header p{margin:8px 0 0;opacity:.88}main{width:min(1200px,94%);margin:28px auto}.section-title{margin:28px 0 18px;font-size:21px}.dryer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}.dryer{min-height:125px;border:1px solid #ffffff70;border-radius:19px;color:#fff;font-size:21px;font-weight:800;cursor:pointer;text-shadow:0 2px 3px #0005;box-shadow:0 8px 0 #0003,0 13px 18px #0002,inset 0 3px 6px #ffffff70;transition:.13s}.dryer:hover{filter:brightness(1.08);transform:translateY(-2px)}.dryer:active{transform:translateY(6px);box-shadow:0 2px 0 #0003,inset 0 3px 5px #0002}.d1{background:linear-gradient(145deg,#65d94b,#218b25)}.d2{background:linear-gradient(145deg,#48baff,#1262c5)}.d3{background:linear-gradient(145deg,#bd83ff,#7133bd)}.d4{background:linear-gradient(145deg,#ffbd55,#d66a0b)}.d5{background:linear-gradient(145deg,#42d7c1,#087f78)}.d6{background:linear-gradient(145deg,#ff7777,#b51e36)}.d7{background:linear-gradient(145deg,#657dff,#2839a7)}.menu-grid,.module-grid,.stats,.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.menu-button,.module{padding:18px;border:0;border-radius:13px;background:linear-gradient(145deg,#fff,#dce4e9);color:#203b35;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 5px 0 #aeb9c0,0 8px 12px #0002;transition:.12s}.menu-button:active,.module:active{transform:translateY(3px);box-shadow:0 2px 0 #aeb9c0}.hidden{display:none!important}.panel-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:24px}.back-button,.primary,.secondary,.danger{border:0;border-radius:9px;padding:12px 16px;font-weight:bold;cursor:pointer}.back-button{background:#203b35;color:white}.primary{background:#087b55;color:white}.secondary{background:#e8eef1;color:#20312e}.danger{background:#b51e36;color:white}.panel-heading{margin:0;font-size:clamp(23px,4vw,32px)}.panel-subtitle{color:#63717b;margin:8px 0 22px}.stat,.panel-section,#module-panel{background:#fff;border-radius:13px;padding:20px;box-shadow:0 3px 12px #0000000c;margin:14px 0}.stat{border-left:5px solid #16865f}.stat small{display:block;color:#71808a;font-weight:bold;margin-bottom:9px}.stat strong{font-size:21px}.module{background:linear-gradient(145deg,#fff,#e8eef1);border:1px solid #dce3e7;text-align:left;box-shadow:0 3px 0 #c4cdd2}.module span{display:block;font-size:12px;color:#75828b;font-weight:normal;margin-top:7px}.silo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}.silo,.record{border:1px solid #dce3e7;border-radius:10px;padding:14px;background:#f8fafb}.silo strong,.record strong{display:block;margin-bottom:7px}.notice{padding:14px;border-radius:10px;background:#fff7e5;border:1px solid #f0d89b;color:#71541c;line-height:1.5}.field{display:flex;flex-direction:column;gap:6px;margin:8px 0}.field label{font-size:13px;font-weight:bold;color:#44515a}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cbd5db;border-radius:8px;font:inherit;background:#fff}.field textarea{min-height:75px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid #e2e8eb;font-size:13px}th{background:#f2f6f7}.muted{color:#687781;font-size:13px}.status{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f5ed;color:#17663d;font-size:12px;font-weight:bold}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.toolbar .field{min-width:170px;flex:1}.progress{height:9px;background:#e4eaed;border-radius:20px;overflow:hidden}.progress>i{display:block;height:100%;background:#159768}.empty{padding:18px;text-align:center;color:#71808a}footer{text-align:center;padding:25px;color:#66727c;font-size:13px}@media(max-width:600px){main{width:92%;margin:20px auto}header{padding:20px}.dryer{min-height:100px;font-size:18px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:14px}.stat strong{font-size:17px}}
 </style>
 </head>
-
 <body>
-
-<header>
-    <h1>CONTROLE DE SECAGEM</h1>
-    <p>Gestão operacional • Secagem de sementes</p>
-</header>
-
+<header><h1>CONTROLE DE SECAGEM</h1><p>Gestão operacional • Secagem de sementes</p></header>
 <main>
-
-<section id="home">
-    <h2 class="section-title">SELECIONE O SECADOR</h2>
-
-    <div class="dryer-grid">
-        <button class="dryer d1" onclick="abrirSecador(1)">SECADOR 01</button>
-        <button class="dryer d2" onclick="abrirSecador(2)">SECADOR 02</button>
-        <button class="dryer d3" onclick="abrirSecador(3)">SECADOR 03</button>
-        <button class="dryer d4" onclick="abrirSecador(4)">SECADOR 04</button>
-        <button class="dryer d5" onclick="abrirSecador(5)">SECADOR 05</button>
-        <button class="dryer d6" onclick="abrirSecador(6)">SECADOR 06</button>
-        <button class="dryer d7" onclick="abrirSecador(7)">SECADOR 07</button>
-    </div>
-
-    <h2 class="section-title">GESTÃO DO SISTEMA</h2>
-
-    <div class="menu-grid">
-        <button class="menu-button" onclick="abrirModuloGeral('Ordens de Secagem')">ORDENS DE SECAGEM</button>
-        <button class="menu-button" onclick="abrirModuloGeral('Histórico Geral')">HISTÓRICO</button>
-        <button class="menu-button" onclick="abrirModuloGeral('Compartilhar Registros')">COMPARTILHAR REGISTROS</button>
-        <button class="menu-button" onclick="abrirModuloGeral('QR Code Público')">QR CODE PÚBLICO</button>
-    </div>
-</section>
-
-<section id="dryer-panel" class="hidden">
-
-    <div class="panel-top">
-        <div>
-            <h2 class="panel-heading" id="dryer-title">SECADOR 01</h2>
-            <p class="panel-subtitle" id="dryer-description"></p>
-        </div>
-
-        <button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button>
-    </div>
-
-    <div class="stats">
-        <div class="stat">
-            <small>SITUAÇÃO OPERACIONAL</small>
-            <strong>Aguardando dados</strong>
-        </div>
-
-        <div class="stat">
-            <small>ORDENS ATIVAS</small>
-            <strong>—</strong>
-        </div>
-
-        <div class="stat">
-            <small>SILOS VINCULADOS</small>
-            <strong id="silo-count">10</strong>
-        </div>
-
-        <div class="stat">
-            <small>CAPACIDADE TOTAL</small>
-            <strong id="capacity">1.500 t</strong>
-        </div>
-    </div>
-
-    <div class="panel-section">
-        <h3>ÁREAS OPERACIONAIS</h3>
-
-        <div class="module-grid">
-            <button class="module" onclick="abrirModulo('Ordens de Secagem')">
-                ORDENS DE SECAGEM
-                <span>Cadastro e acompanhamento de ordens</span>
-            </button>
-
-            <button class="module" onclick="abrirModulo('Silos e Estoque')">
-                SILOS E ESTOQUE
-                <span>Capacidade e movimentações</span>
-            </button>
-
-            <button class="module" onclick="abrirModulo('Tickets de Recebimento')">
-                TICKETS DE RECEBIMENTO
-                <span>Pesagem e entrada de sementes</span>
-            </button>
-
-            <button class="module" onclick="abrirModulo('Amostragens')">
-                AMOSTRAGENS
-                <span>Controle técnico a cada 15 minutos</span>
-            </button>
-
-            <button class="module" onclick="abrirModulo('Histórico do Secador')">
-                HISTÓRICO
-                <span>Rastreabilidade operacional</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="panel-section" id="silo-section">
-        <h3 id="silo-heading">SILOS DO SECADOR</h3>
-        <div class="silo-grid" id="silo-grid"></div>
-    </div>
-
-    <div id="module-panel" class="hidden" aria-live="polite">
-        <h3 id="module-title"></h3>
-        <p id="module-description"></p>
-        <div class="notice">
-            Este módulo está preparado para receber os dados reais do Supabase.
-            Nenhum registro operacional está sendo inventado ou armazenado nesta demonstração.
-        </div>
-    </div>
-
-</section>
-
-<section id="general-panel" class="hidden">
-    <div class="panel-top">
-        <h2 class="panel-heading" id="general-title"></h2>
-        <button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button>
-    </div>
-
-    <div class="panel-section">
-        <p>Área de gestão geral do Controle de Secagem.</p>
-        <div class="notice">
-            Este módulo será conectado ao banco de dados nas próximas etapas.
-            Nenhuma informação operacional está sendo simulada.
-        </div>
-    </div>
-</section>
-
-</main>
-
-<footer>CONTROLE DE SECAGEM • SISTEMA OPERACIONAL</footer>
-
+<section id="home"><h2 class="section-title">SELECIONE O SECADOR</h2><div class="dryer-grid">
+<button class="dryer d1" onclick="abrirSecador(1)">SECADOR 01</button><button class="dryer d2" onclick="abrirSecador(2)">SECADOR 02</button><button class="dryer d3" onclick="abrirSecador(3)">SECADOR 03</button><button class="dryer d4" onclick="abrirSecador(4)">SECADOR 04</button><button class="dryer d5" onclick="abrirSecador(5)">SECADOR 05</button><button class="dryer d6" onclick="abrirSecador(6)">SECADOR 06</button><button class="dryer d7" onclick="abrirSecador(7)">SECADOR 07</button>
+</div><h2 class="section-title">GESTÃO DO SISTEMA</h2><div class="menu-grid">
+<button class="menu-button" onclick="abrirModuloGeral('Ordens de Secagem')">ORDENS DE SECAGEM</button><button class="menu-button" onclick="abrirModuloGeral('Histórico Geral')">HISTÓRICO</button><button class="menu-button" onclick="abrirModuloGeral('Compartilhar Registros')">COMPARTILHAR REGISTROS</button><button class="menu-button" onclick="abrirModuloGeral('QR Code Público')">QR CODE PÚBLICO</button>
+</div></section>
+<section id="dryer-panel" class="hidden"><div class="panel-top"><div><h2 class="panel-heading" id="dryer-title"></h2><p class="panel-subtitle" id="dryer-description"></p></div><button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button></div>
+<div class="stats"><div class="stat"><small>SITUAÇÃO OPERACIONAL</small><strong id="dryer-status">Consultando...</strong></div><div class="stat"><small>ORDENS ATIVAS</small><strong id="active-count">—</strong></div><div class="stat"><small>SILOS VINCULADOS</small><strong id="silo-count">10</strong></div><div class="stat"><small>CAPACIDADE TOTAL</small><strong id="capacity">1.500 t</strong></div></div>
+<div class="panel-section"><h3>ÁREAS OPERACIONAIS</h3><div class="module-grid">
+<button class="module" onclick="mostrarModulo('ordens')">ORDENS DE SECAGEM<span>Cadastro e acompanhamento</span></button><button class="module" onclick="mostrarModulo('silos')">SILOS E ESTOQUE<span>Saldos e movimentações</span></button><button class="module" onclick="mostrarModulo('tickets')">TICKETS DE RECEBIMENTO<span>Pesagem e entrada de sementes</span></button><button class="module" onclick="mostrarModulo('amostras')">AMOSTRAGENS<span>Controle técnico sem intervalo mínimo</span></button><button class="module" onclick="mostrarModulo('historico')">HISTÓRICO<span>Rastreabilidade operacional</span></button>
+</div></div><div id="module-panel" class="panel-section hidden" aria-live="polite"></div></section>
+<section id="general-panel" class="hidden"><div class="panel-top"><h2 class="panel-heading" id="general-title"></h2><button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button></div><div id="general-content" class="panel-section"></div></section>
+</main><footer>CONTROLE DE SECAGEM • SISTEMA OPERACIONAL</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-let secadorAtual = null;
-
-// CONEXÃO COM O SUPABASE
-const SUPABASE_URL = "https://oemqqmeyfztcezujjulz.supabase.co";
-
-const SUPABASE_ANON_KEY = "sb_publishable_8vJXnTQxpDf13PykmdFmCA_ywU8oZpm";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-
-// CONTROLE DAS TELAS
-function ocultarTelas(){
-    document.getElementById("home").classList.add("hidden");
-    document.getElementById("dryer-panel").classList.add("hidden");
-    document.getElementById("general-panel").classList.add("hidden");
-}
-
-// ABRIR SECADOR E CONSULTAR SILOS NO SUPABASE
-async function abrirSecador(numero){
-
-    secadorAtual = numero;
-    ocultarTelas();
-
-    const titulo = "SECADOR " + String(numero).padStart(2,"0");
-    const especial = numero === 7;
-
-    document.getElementById("dryer-title").textContent = titulo;
-
-    document.getElementById("dryer-description").textContent =
-        especial
-        ? "Secador especial • Retirada de sementes dos silos dos Secadores 01 a 06"
-        : "Painel operacional individual • " + titulo;
-
-    document.getElementById("silo-count").textContent =
-        especial ? "60 de origem" : "10";
-
-    document.getElementById("capacity").textContent =
-        especial ? "Sem silos próprios" : "1.500 t";
-
-    document.getElementById("silo-heading").textContent =
-        especial ? "SILOS DE ORIGEM DISPONÍVEIS" : "SILOS DO " + titulo;
-
-    const grid = document.getElementById("silo-grid");
-
-    grid.textContent = "Carregando silos do Supabase...";
-
-    document.getElementById("module-panel").classList.add("hidden");
-    document.getElementById("dryer-panel").classList.remove("hidden");
-
-    window.scrollTo({top:0,behavior:"smooth"});
-
-    try{
-
-        const {data,error} = await supabaseClient.rpc(
-            "consultar_silos_publicos"
-        );
-
-        if(error) throw error;
-
-        const silos = Array.isArray(data) ? data : [];
-
-        const silosExibidos = especial
-            ? silos
-            : silos.filter(s => Number(s.secador_id) === numero);
-
-        grid.innerHTML = "";
-
-        if(silosExibidos.length === 0){
-            grid.textContent = "Nenhum silo encontrado.";
-            return;
-        }
-
-        silosExibidos.forEach(silo => {
-            adicionarSilo(grid,silo,especial);
-        });
-
-    }catch(erro){
-
-        console.error("Erro ao consultar silos:",erro);
-
-        grid.textContent =
-            "Não foi possível carregar os silos. Verifique a conexão com o Supabase.";
-
-    }
-}
-
-// CRIAR CARTÕES DOS SILOS COM DADOS REAIS
-function adicionarSilo(grid,silo,especial){
-
-    const card = document.createElement("div");
-    card.className = "silo";
-
-    const nome = document.createElement("strong");
-    nome.textContent = "SILO " + silo.codigo;
-
-    const detalhe = document.createElement("small");
-
-    const saldo = Number(silo.saldo_t || 0);
-    const capacidade = Number(silo.capacidade_t || 0);
-    const disponivel = Math.max(0,capacidade - saldo);
-
-    const formatar = valor =>
-        valor.toLocaleString("pt-BR",{
-            maximumFractionDigits:3
-        });
-
-    detalhe.textContent = especial
-        ? "Origem • Saldo: " + formatar(saldo) + " t"
-        : "Saldo: " + formatar(saldo) +
-          " t • Disponível: " + formatar(disponivel) + " t";
-
-    card.appendChild(nome);
-    card.appendChild(detalhe);
-
-    grid.appendChild(card);
-}
-
-// ABRIR MÓDULOS DO SECADOR
-function abrirModulo(nome){
-
-    document.getElementById("module-title").textContent = nome;
-
-    document.getElementById("module-description").textContent =
-        "Área vinculada ao SECADOR " +
-        String(secadorAtual).padStart(2,"0") + ".";
-
-    document.getElementById("module-panel").classList.remove("hidden");
-
-    document.getElementById("module-panel").scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-    });
-}
-
-// ABRIR MÓDULOS GERAIS
-function abrirModuloGeral(nome){
-
-    ocultarTelas();
-
-    document.getElementById("general-title").textContent = nome;
-
-    document.getElementById("general-panel").classList.remove("hidden");
-
-    window.scrollTo({top:0,behavior:"smooth"});
-}
-
-// VOLTAR AO PAINEL PRINCIPAL
-function voltarInicio(){
-
-    secadorAtual = null;
-
-    ocultarTelas();
-
-    document.getElementById("home").classList.remove("hidden");
-
-    window.scrollTo({top:0,behavior:"smooth"});
-}
+'use strict';
+const SUPABASE_URL='https://oemqqmeyfztcezujjulz.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_8vJXnTQxpDf13PykmdFmCA_ywU8oZpm';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+let secadorAtual=null, ordemSelecionada=null, ordensCache=[];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>v===''||v===null||v===undefined?null:Number(String(v).replace(',','.'));
+const fmt=v=>Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:3});
+const dt=v=>v?new Date(v).toLocaleString('pt-BR'):'—';
+function msg(text){alert(text)}
+async function rpc(nome,args={}){const {data,error}=await sb.rpc(nome,args);if(error)throw new Error(error.message||'Falha na comunicação com o banco');return data}
+function hide(){['home','dryer-panel','general-panel'].forEach(id=>$(id).classList.add('hidden'))}
+function voltarInicio(){secadorAtual=null;ordemSelecionada=null;hide();$('home').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+async function abrirSecador(n){secadorAtual=n;hide();$('dryer-panel').classList.remove('hidden');$('dryer-title').textContent='SECADOR '+String(n).padStart(2,'0');$('dryer-description').textContent=n===7?'Secador especial • utiliza silos de origem dos Secadores 01 a 06':'Painel operacional individual';$('silo-count').textContent=n===7?'60 de origem':'10';$('capacity').textContent=n===7?'Sem silos próprios':'1.500 t';$('module-panel').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});await atualizarResumo()}
+async function atualizarResumo(){try{const [ordens,silos]=await Promise.all([rpc('consultar_ordens_secagem_publicas',{p_secador_id:secadorAtual,p_status:null}),rpc('consultar_silos_publicos')]);ordensCache=normalizarLista(ordens);const ativas=ordensCache.filter(o=>['AGUARDANDO','EM_ANDAMENTO'].includes(o.status));$('active-count').textContent=ativas.length;$('dryer-status').textContent=ativas.length?'Em operação':'Disponível';if(secadorAtual===7)$('silo-count').textContent=normalizarLista(silos).length+' de origem';}catch(e){$('dryer-status').textContent='Sem conexão';console.error(e)}}
+function normalizarLista(d){if(Array.isArray(d))return d;if(d&&Array.isArray(d.data))return d.data;if(d&&Array.isArray(d.ordens))return d.ordens;if(d&&Array.isArray(d.silos))return d.silos;return d&&typeof d==='object'?[d]:[]}
+function field(id,label,type='text',required=true,extra=''){return `<div class="field"><label for="${id}">${label}${required?' *':''}</label><input id="${id}" type="${type}" ${required?'required':''} ${extra}></div>`}
+function selectField(id,label,options,required=true){return `<div class="field"><label for="${id}">${label}${required?' *':''}</label><select id="${id}" ${required?'required':''}>${options.map(o=>`<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div>`}
+function val(id){return $(id)?.value?.trim()??''}function getNum(id){return num(val(id))}
+function actionForm(html,button,fn){return `<form id="op-form">${html}<div class="actions"><button class="primary" type="submit">${button}</button></div></form>`}
+function bindForm(fn){$('op-form')?.addEventListener('submit',async e=>{e.preventDefault();const b=e.submitter;b.disabled=true;try{await fn()}catch(err){console.error(err);msg(err.message)}finally{b.disabled=false}})}
+function mostrarModulo(m){const box=$('module-panel');box.classList.remove('hidden');box.innerHTML='<p>Carregando módulo...</p>';window.scrollTo({top:box.offsetTop-15,behavior:'smooth'});({ordens:modOrdens,silos:modSilos,tickets:modTickets,amostras:modAmostras,historico:modHistorico}[m]||modOrdens)()}
+function abrirModuloGeral(nome){hide();$('general-panel').classList.remove('hidden');$('general-title').textContent=nome;const c=$('general-content');if(nome==='Ordens de Secagem')c.innerHTML=`<h3>Ordens de todos os secadores</h3><div class="toolbar">${selectField('g-status','Status',[['','Todos'],['AGUARDANDO','Aguardando'],['EM_ANDAMENTO','Em andamento'],['CONCLUIDA','Concluída'],['CANCELADA','Cancelada']],false)}<button class="primary" onclick="listarOrdensGeral()">Consultar</button></div><div id="g-results"></div>`;else if(nome==='Histórico Geral')c.innerHTML=`<h3>Consultar histórico de uma ordem</h3>${field('g-uuid','ID da ordem (UUID)')}<div class="actions"><button class="primary" onclick="historicoUuid(val('g-uuid'),'g-results')">Consultar histórico</button></div><div id="g-results"></div>`;else if(nome==='Compartilhar Registros')c.innerHTML=`<h3>Compartilhar registro</h3><p class="muted">Informe o UUID da ordem para gerar um resumo compartilhável.</p>${field('share-uuid','ID da ordem (UUID)')}<div class="actions"><button class="primary" onclick="compartilhar(val('share-uuid'))">Gerar e compartilhar</button></div><div id="g-results"></div>`;else c.innerHTML=`<h3>QR Code público de uma ordem</h3><p class="muted">O QR Code abre o endereço público de consulta do histórico pelo identificador da ordem.</p>${field('qr-uuid','ID da ordem (UUID)')}<div class="actions"><button class="primary" onclick="gerarQR(val('qr-uuid'))">Gerar QR Code</button></div><div id="g-results"></div>`;window.scrollTo({top:0,behavior:'smooth'})}
+async function modOrdens(){const box=$('module-panel');box.innerHTML=`<h3>ORDENS DE SECAGEM • SECADOR ${String(secadorAtual).padStart(2,'0')}</h3><div class="actions"><button class="primary" onclick="formNovaOrdem()">+ Nova ordem</button><button class="secondary" onclick="listarOrdens()">Atualizar lista</button></div><div id="orders-list"></div>`;await listarOrdens()}
+function formNovaOrdem(){const box=$('module-panel');box.innerHTML=`<h3>CADASTRAR ORDEM • SECADOR ${String(secadorAtual).padStart(2,'0')}</h3>${actionForm(`<div class="form-grid">${field('o-numero','Número da ordem')}${field('o-cultivar','Cultivar')}${field('o-categoria','Categoria')}${field('o-cliente','Cliente')}${field('o-quantidade','Quantidade (t)','number',true,'min="0.001" step="0.001"')}${secadorAtual===7?'':field('o-origem','Silo de origem (código)','number',true,'step="1"')}${secadorAtual===7?'':field('o-destino','Silo de destino (código)','number',true,'step="1"')}${field('o-inicial','Umidade inicial (%)','number',true,'min="0.01" max="100" step="0.01"')}${field('o-transicao','Umidade de transição (%)','number',true,'min="0.01" max="100" step="0.01"')}${field('o-final','Umidade final desejada (%)','number',true,'min="0.01" max="100" step="0.01"')}${field('o-responsavel','Responsável')}</div><div class="field"><label>Observações</label><textarea id="o-obs"></textarea></div>`,'CRIAR ORDEM',criarOrdem)}`;bindForm(criarOrdem)}
+async function criarOrdem(){const args={p_numero_ordem:val('o-numero'),p_secador_id:secadorAtual,p_cultivar:val('o-cultivar'),p_categoria:val('o-categoria'),p_cliente:val('o-cliente'),p_quantidade_t:getNum('o-quantidade'),p_silo_origem_codigo:secadorAtual===7?null:getNum('o-origem'),p_silo_destino_codigo:secadorAtual===7?null:getNum('o-destino'),p_umidade_inicial:getNum('o-inicial'),p_umidade_transicao:getNum('o-transicao'),p_umidade_final_desejada:getNum('o-final'),p_responsavel:val('o-responsavel'),p_observacoes:val('o-obs')||null};const d=await rpc('criar_ordem_secagem_publica_v2',args);msg('Ordem criada com sucesso.');await modOrdens()}
+async function listarOrdens(){const box=$('orders-list');box.innerHTML='Consultando...';const data=await rpc('consultar_ordens_secagem_publicas',{p_secador_id:secadorAtual,p_status:null});ordensCache=normalizarLista(data);box.innerHTML=renderOrdens(ordensCache)}
+async function listarOrdensGeral(){const status=val('g-status');const data=await rpc('consultar_ordens_secagem_publicas',{p_secador_id:null,p_status:status||null});ordensCache=normalizarLista(data);$('g-results').innerHTML=renderOrdens(ordensCache)}
+function renderOrdens(lista){if(!lista.length)return '<div class="empty">Nenhuma ordem encontrada.</div>';return `<div class="table-wrap"><table><thead><tr><th>Ordem</th><th>Secador</th><th>Cliente</th><th>Quantidade</th><th>Recebido</th><th>Status</th><th>Ações</th></tr></thead><tbody>${lista.map(o=>`<tr><td>${esc(o.numero_ordem)}</td><td>${esc(o.secador_id)}</td><td>${esc(o.cliente)}</td><td>${fmt(o.quantidade_t)} t</td><td>${fmt(o.total_recebido_t??o.quantidade_recebida_t??0)} t</td><td><span class="status">${esc(o.status)}</span></td><td><button class="secondary" onclick="selecionarOrdem('${esc(o.id)}')">Abrir</button></td></tr>`).join('')}</tbody></table></div>`}
+async function selecionarOrdem(id){ordemSelecionada=id;const o=ordensCache.find(x=>x.id===id);const box=$('module-panel');box.innerHTML=`<h3>ORDEM ${esc(o?.numero_ordem||id)}</h3><p>Cliente: ${esc(o?.cliente||'—')} • Status: ${esc(o?.status||'—')} • Modo: ${esc(o?.modo_atual||'INTERMITENTE')}</p><div class="progress"><i style="width:${Math.min(100,Math.max(0,Number(o?.percentual_concluido||0)))}%"></i></div><div class="actions"><button class="primary" onclick="iniciarOrdem('${id}')">Iniciar ordem</button><button class="secondary" onclick="formTicket('${id}')">Registrar ticket</button><button class="secondary" onclick="formAmostra('${id}')">Registrar amostragem</button><button class="secondary" onclick="confirmarContinuo('${id}')">Confirmar CONTÍNUO</button><button class="primary" onclick="concluirOrdem('${id}')">Concluir ordem</button><button class="danger" onclick="cancelarOrdem('${id}')">Cancelar ordem</button><button class="secondary" onclick="historicoUuid('${id}','order-history')">Histórico completo</button></div><div id="order-history"></div><p class="muted">As operações são validadas pelo Supabase. Concluir e cancelar são ações definitivas conforme as regras do banco.</p>`;box.scrollIntoView({behavior:'smooth'})}
+async function iniciarOrdem(id){if(!confirm('Iniciar esta ordem?'))return;await rpc('iniciar_ordem_secagem_publica',{p_ordem_id:id,p_responsavel:null});msg('Ordem iniciada.');await atualizarResumo();await listarOrdens()}
+async function concluirOrdem(id){if(!confirm('Confirma a conclusão? Para os Secadores 01–06, o banco transferirá o total real dos tickets. Para o Secador 07 não haverá nova retirada.'))return;await rpc('concluir_ordem_secagem_publica',{p_ordem_id:id,p_responsavel:null});msg('Ordem concluída.');await atualizarResumo();await listarOrdens()}
+async function cancelarOrdem(id){if(!confirm('Cancelar esta ordem? O banco só permite cancelar se ainda não houver tickets.'))return;const responsavel=prompt('Informe o responsável pelo cancelamento:');if(!responsavel)return;await rpc('cancelar_ordem_secagem_publica',{p_ordem_id:id,p_responsavel:responsavel});msg('Ordem cancelada.');await atualizarResumo();await listarOrdens()}
+function formTicket(id){ordemSelecionada=id;const o=ordensCache.find(x=>x.id===id);const siloInicial=secadorAtual===7?'':(o?.silo_origem_codigo??'');$('module-panel').innerHTML=`<h3>REGISTRAR TICKET</h3>${actionForm(`<div class="form-grid">${field('t-numero','Número do ticket')}${field('t-silo','Silo de origem / recebimento (código)','number',true,`step="1" value="${esc(siloInicial)}"`)}${field('t-quantidade','Quantidade (t)','number',true,'min="0.001" step="0.001"')}${field('t-responsavel','Responsável')}</div><div class="field"><label>Observações</label><textarea id="t-obs"></textarea></div>`,'REGISTRAR TICKET',registrarTicket)}`;bindForm(registrarTicket)}
+async function registrarTicket(){await rpc('registrar_ticket_secagem_publico',{p_ordem_id:ordemSelecionada,p_numero_ticket:val('t-numero'),p_silo_codigo:getNum('t-silo'),p_quantidade_t:getNum('t-quantidade'),p_responsavel:val('t-responsavel'),p_observacoes:val('t-obs')||null});msg('Ticket registrado e movimentação processada pelo banco.');await atualizarResumo();await modOrdens()}
+function formAmostra(id){ordemSelecionada=id;$('module-panel').innerHTML=`<h3>REGISTRAR AMOSTRAGEM</h3><p class="muted">Não existe intervalo mínimo entre amostragens.</p>${actionForm(`<div class="form-grid">${selectField('a-modo','Modo de operação',[['INTERMITENTE','INTERMITENTE'],['CONTINUO','CONTÍNUO']])}${field('a-entrada','Umidade de entrada (%)','number',false,'min="0" max="100" step="0.01"')}${field('a-saida','Umidade de saída (%)','number',false,'min="0" max="100" step="0.01"')}${secadorAtual===7?field('a-silo','Silo de origem (código)','number',true):''}${field('a-auto','Temperatura automação (°C)','number',false,'step="0.01"')}${field('a-bancada','Temperatura bancada (°C)','number',false,'step="0.01"')}${field('a-rpm','RPM basculante','number',false,'step="0.01"')}${field('a-dm','DM','number',false,'step="0.001"')}${field('a-ar','Temperatura ar servido (°C)','number',false,'step="0.01"')}${field('a-responsavel','Responsável')}</div><div class="field"><label>Observações</label><textarea id="a-obs"></textarea></div>`,'SALVAR AMOSTRAGEM',registrarAmostra)}`;bindForm(registrarAmostra)}
+async function registrarAmostra(){const args={p_ordem_id:ordemSelecionada,p_modo_operacao:val('a-modo'),p_umidade_entrada:getNum('a-entrada'),p_umidade_saida:getNum('a-saida'),p_silo_origem_codigo:secadorAtual===7?getNum('a-silo'):null,p_temperatura_automacao:getNum('a-auto'),p_temperatura_bancada:getNum('a-bancada'),p_rpm_basculante:getNum('a-rpm'),p_dm:getNum('a-dm'),p_temperatura_ar_servido:getNum('a-ar'),p_responsavel:val('a-responsavel'),p_observacoes:val('a-obs')||null};await rpc('registrar_amostragem_secagem_publica',args);msg('Amostragem registrada.');await modOrdens()}
+async function confirmarContinuo(id){const responsavel=prompt('Responsável pela confirmação do modo CONTÍNUO:');if(!responsavel)return;if(!confirm('Confirma a mudança manual para CONTÍNUO? O banco verificará se a última umidade de saída atingiu a umidade de transição.'))return;await rpc('confirmar_modo_continuo_publico',{p_ordem_id:id,p_responsavel:responsavel});msg('Modo CONTÍNUO confirmado.');await listarOrdens()}
+async function modSilos(){const box=$('module-panel');box.innerHTML='<h3>SILOS E ESTOQUE</h3><div id="silos-list">Consultando saldos...</div>';const data=normalizarLista(await rpc('consultar_silos_publicos'));const arr=secadorAtual===7?data:data.filter(s=>Number(s.secador_id)===secadorAtual);$('silos-list').innerHTML=arr.length?`<div class="silo-grid">${arr.map(s=>`<div class="silo"><strong>SILO ${esc(s.codigo)}</strong><small>Secador ${esc(s.secador_id)} • Saldo: ${fmt(s.saldo_t)} t<br>Capacidade: ${fmt(s.capacidade_t)} t<br>Disponível: ${fmt(Number(s.capacidade_t)-Number(s.saldo_t))} t</small></div>`).join('')}</div>`:'<div class="empty">Nenhum silo encontrado.</div>'}
+function modTickets(){modOrdens()}
+async function modAmostras(){const box=$('module-panel');box.innerHTML=`<h3>AMOSTRAGENS</h3><p>Selecione uma ordem em Ordens de Secagem para registrar uma amostragem.</p><button class="primary" onclick="modOrdens()">Ver ordens</button>`}
+async function modHistorico(){const box=$('module-panel');box.innerHTML=`<h3>HISTÓRICO DO SECADOR</h3>${field('h-uuid','ID da ordem (UUID)')}<div class="actions"><button class="primary" onclick="historicoUuid(val('h-uuid'),'h-results')">Consultar histórico</button></div><div id="h-results"></div>`}
+async function historicoUuid(id,target){if(!id){msg('Informe o UUID da ordem.');return}const out=$(target);if(out)out.innerHTML='Consultando histórico...';const d=await rpc('consultar_historico_ordem_publico',{p_ordem_id:id});const obj=Array.isArray(d)?d[0]:d;if(out)out.innerHTML=renderHistorico(obj);return obj}
+function renderHistorico(o){if(!o)return '<div class="empty">Nenhum histórico retornado.</div>';const ordem=o.ordem||o;const tickets=normalizarLista(o.tickets||o.ticket);const amostras=normalizarLista(o.amostras||o.amostragens);const movs=normalizarLista(o.movimentacoes||o.movimentacoes_silos);return `<div class="record"><strong>ORDEM ${esc(ordem.numero_ordem||ordem.id||'')}</strong>Cliente: ${esc(ordem.cliente||'—')} • Status: ${esc(ordem.status||'—')} • Secador: ${esc(ordem.secador_id||'—')}<br>Cultivar: ${esc(ordem.cultivar||'—')} • Quantidade: ${fmt(ordem.quantidade_t)} t</div><h4>Tickets (${tickets.length})</h4>${listaSimples(tickets,['numero_ticket','silo_codigo','quantidade_t','data_recebimento'])}<h4>Amostragens (${amostras.length})</h4>${listaSimples(amostras,['numero_amostra','modo_operacao','umidade_entrada','umidade_saida','data_hora'])}<h4>Movimentações (${movs.length})</h4>${listaSimples(movs,['tipo','silo_origem_codigo','silo_destino_codigo','quantidade_t','data_hora'])}<div class="actions"><button class="secondary" onclick="compartilharObjeto(${JSON.stringify(JSON.stringify(o)).replace(/</g,'\\u003c')})">Compartilhar resumo</button></div>`}
+function listaSimples(a,keys){if(!a.length)return '<p class="muted">Nenhum registro.</p>';return `<div class="table-wrap"><table><tbody>${a.map(x=>`<tr>${keys.map(k=>`<td>${esc(x[k]??'—')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+async function compartilhar(id){const o=await historicoUuid(id,'g-results');if(o)compartilharObjeto(JSON.stringify(o))}
+async function compartilharObjeto(raw){const o=typeof raw==='string'?JSON.parse(raw):raw;const resumo=JSON.stringify(o,null,2);if(navigator.share){try{await navigator.share({title:'Registro de secagem',text:resumo})}catch(e){}}else{await navigator.clipboard.writeText(resumo);msg('Resumo copiado para a área de transferência.')}}
+function gerarQR(id){if(!id){msg('Informe o UUID da ordem.');return}const url=location.origin+location.pathname+'?ordem='+encodeURIComponent(id);$('g-results').innerHTML=`<p>Link público do histórico:</p><p><a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a></p><img alt="QR Code público" width="240" height="240" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}"><p class="muted">O QR Code aponta para o aplicativo. A consulta do histórico exige o UUID e usa a função pública de consulta.</p><button class="secondary" onclick="navigator.clipboard.writeText('${esc(url)}')">Copiar link</button>`}
+(async function iniciar(){const id=new URLSearchParams(location.search).get('ordem');if(id){abrirModuloGeral('Histórico Geral');$('g-uuid').value=id;historicoUuid(id,'g-results').catch(e=>msg(e.message))}})();
 </script>
-
-</body>
-</html>
+</body></html>
