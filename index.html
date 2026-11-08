@@ -2,191 +2,247 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controle de Secagem</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Secagem</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef2f5;
-      color: #17212b;
-    }
-
-    header {
-      background: linear-gradient(135deg, #123d32, #087b55);
-      color: white;
-      padding: 25px 20px;
-      box-shadow: 0 4px 12px #0003;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: clamp(23px, 4vw, 34px);
-      letter-spacing: 1px;
-    }
-
-    header p { margin: 8px 0 0; opacity: .85; }
-
-    main {
-      width: min(1100px, 94%);
-      margin: 28px auto;
-    }
-
-    .section-title {
-      margin: 28px 0 16px;
-      font-size: 20px;
-    }
-
-    .dryer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 18px;
-    }
-
-    .dryer {
-      min-height: 115px;
-      border: 1px solid #ffffff70;
-      border-radius: 17px;
-      color: white;
-      font-size: 20px;
-      font-weight: 800;
-      cursor: pointer;
-      text-shadow: 0 2px 3px #0005;
-      box-shadow: 0 7px 0 #0003, 0 12px 18px #0002,
-                  inset 0 3px 5px #ffffff70;
-      transition: transform .12s, box-shadow .12s;
-    }
-
-    .dryer:hover {
-      filter: brightness(1.08);
-      transform: translateY(-2px);
-    }
-
-    .dryer:active {
-      transform: translateY(5px);
-      box-shadow: 0 2px 0 #0003, 0 5px 8px #0002,
-                  inset 0 3px 5px #0002;
-    }
-
-    .d1 { background: linear-gradient(145deg, #65d94b, #218b25); }
-    .d2 { background: linear-gradient(145deg, #48baff, #1262c5); }
-    .d3 { background: linear-gradient(145deg, #bd83ff, #7133bd); }
-    .d4 { background: linear-gradient(145deg, #ffbd55, #d66a0b); }
-    .d5 { background: linear-gradient(145deg, #42d7c1, #087f78); }
-    .d6 { background: linear-gradient(145deg, #ff7777, #b51e36); }
-    .d7 { background: linear-gradient(145deg, #657dff, #2839a7); }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .menu-button {
-      padding: 17px;
-      border: 0;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #ffffff, #dce4e9);
-      color: #20312e;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 0 #aeb9c0, 0 7px 12px #0002;
-      transition: .12s;
-    }
-
-    .menu-button:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #aeb9c0;
-    }
-
-    #painel {
-      display: none;
-      margin-top: 25px;
-      padding: 24px;
-      border-radius: 14px;
-      background: white;
-      box-shadow: 0 4px 16px #0001;
-    }
-
-    #painel h2 { margin-top: 0; }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #66727c;
-      font-size: 13px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f5;color:#17212b}
+header{background:linear-gradient(135deg,#123d32,#087b55);color:white;padding:22px 26px;box-shadow:0 4px 12px #0003}
+header h1{margin:0;font-size:clamp(23px,4vw,34px);letter-spacing:1px}
+header p{margin:8px 0 0;opacity:.88}
+main{width:min(1200px,94%);margin:28px auto}
+.section-title{margin:28px 0 18px;font-size:21px}
+.dryer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+.dryer{min-height:125px;border:1px solid #ffffff70;border-radius:19px;color:white;font-size:21px;font-weight:800;cursor:pointer;text-shadow:0 2px 3px #0005;box-shadow:0 8px 0 #0003,0 13px 18px #0002,inset 0 3px 6px #ffffff70;transition:.13s}
+.dryer:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.dryer:active{transform:translateY(6px);box-shadow:0 2px 0 #0003,inset 0 3px 5px #0002}
+.d1{background:linear-gradient(145deg,#65d94b,#218b25)}
+.d2{background:linear-gradient(145deg,#48baff,#1262c5)}
+.d3{background:linear-gradient(145deg,#bd83ff,#7133bd)}
+.d4{background:linear-gradient(145deg,#ffbd55,#d66a0b)}
+.d5{background:linear-gradient(145deg,#42d7c1,#087f78)}
+.d6{background:linear-gradient(145deg,#ff7777,#b51e36)}
+.d7{background:linear-gradient(145deg,#657dff,#2839a7)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.menu-button{padding:18px;border:0;border-radius:13px;background:linear-gradient(145deg,#fff,#dce4e9);color:#20312e;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 5px 0 #aeb9c0,0 8px 12px #0002;transition:.12s}
+.menu-button:active{transform:translateY(3px);box-shadow:0 2px 0 #aeb9c0}
+.hidden{display:none!important}
+.panel-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:24px}
+.back-button{background:#203b35;color:white;border:0;border-radius:10px;padding:13px 19px;font-weight:bold;cursor:pointer}
+.panel-heading{margin:0;font-size:clamp(23px,4vw,32px)}
+.panel-subtitle{color:#63717b;margin:8px 0 22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:26px}
+.stat{background:white;border-radius:13px;padding:20px;box-shadow:0 3px 12px #0000000c;border-left:5px solid #16865f}
+.stat small{display:block;color:#71808a;font-weight:bold;margin-bottom:9px}
+.stat strong{font-size:21px}
+.panel-section{background:white;border-radius:15px;padding:22px;margin:18px 0;box-shadow:0 3px 12px #0000000c}
+.panel-section h3{margin:0 0 17px}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px}
+.module{background:linear-gradient(145deg,#fff,#e8eef1);border:1px solid #dce3e7;border-radius:12px;padding:18px;text-align:left;cursor:pointer;font-weight:bold;color:#203b35;box-shadow:0 3px 0 #c4cdd2;transition:.12s}
+.module:hover{transform:translateY(-2px);background:#f2f8f5}
+.module:active{transform:translateY(2px);box-shadow:0 1px 0 #c4cdd2}
+.module span{display:block;font-size:12px;color:#75828b;font-weight:normal;margin-top:7px}
+.silo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:11px}
+.silo{border:1px solid #dce3e7;border-radius:10px;padding:15px;background:#f8fafb}
+.silo strong{display:block;font-size:17px;margin-bottom:7px}
+.silo small{color:#71808a}
+.notice{padding:15px;border-radius:10px;background:#fff7e5;border:1px solid #f0d89b;color:#71541c;line-height:1.5}
+#module-panel{background:white;border-radius:15px;padding:24px;margin-top:22px;box-shadow:0 3px 12px #0000000c}
+#module-panel h3{margin-top:0}
+footer{text-align:center;padding:25px;color:#66727c;font-size:13px}
+@media(max-width:600px){
+ main{width:92%;margin:20px auto}
+ header{padding:20px}
+ .dryer{min-height:100px;font-size:18px}
+ .panel-section{padding:16px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stat{padding:14px}
+ .stat strong{font-size:17px}
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <h1>CONTROLE DE SECAGEM</h1>
-  <p>Gestão operacional • Secagem de sementes</p>
+<h1>CONTROLE DE SECAGEM</h1>
+<p>Gestão operacional • Secagem de sementes</p>
 </header>
 
 <main>
-  <h2 class="section-title">SELECIONE O SECADOR</h2>
 
-  <div class="dryer-grid">
-    <button class="dryer d1" onclick="abrirSecador(1)">SECADOR 01</button>
-    <button class="dryer d2" onclick="abrirSecador(2)">SECADOR 02</button>
-    <button class="dryer d3" onclick="abrirSecador(3)">SECADOR 03</button>
-    <button class="dryer d4" onclick="abrirSecador(4)">SECADOR 04</button>
-    <button class="dryer d5" onclick="abrirSecador(5)">SECADOR 05</button>
-    <button class="dryer d6" onclick="abrirSecador(6)">SECADOR 06</button>
-    <button class="dryer d7" onclick="abrirSecador(7)">SECADOR 07</button>
-  </div>
+<section id="home">
+<h2 class="section-title">SELECIONE O SECADOR</h2>
 
-  <h2 class="section-title">GESTÃO DO SISTEMA</h2>
+<div class="dryer-grid">
+<button class="dryer d1" onclick="abrirSecador(1)">SECADOR 01</button>
+<button class="dryer d2" onclick="abrirSecador(2)">SECADOR 02</button>
+<button class="dryer d3" onclick="abrirSecador(3)">SECADOR 03</button>
+<button class="dryer d4" onclick="abrirSecador(4)">SECADOR 04</button>
+<button class="dryer d5" onclick="abrirSecador(5)">SECADOR 05</button>
+<button class="dryer d6" onclick="abrirSecador(6)">SECADOR 06</button>
+<button class="dryer d7" onclick="abrirSecador(7)">SECADOR 07</button>
+</div>
 
-  <div class="menu-grid">
-    <button class="menu-button" onclick="abrirMenu('Ordens de Secagem')">ORDENS DE SECAGEM</button>
-    <button class="menu-button" onclick="abrirMenu('Histórico')">HISTÓRICO</button>
-    <button class="menu-button" onclick="abrirMenu('Compartilhar Registros')">COMPARTILHAR REGISTROS</button>
-    <button class="menu-button" onclick="abrirMenu('QR Code Público')">QR CODE PÚBLICO</button>
-  </div>
+<h2 class="section-title">GESTÃO DO SISTEMA</h2>
+<div class="menu-grid">
+<button class="menu-button" onclick="abrirModuloGeral('Ordens de Secagem')">ORDENS DE SECAGEM</button>
+<button class="menu-button" onclick="abrirModuloGeral('Histórico Geral')">HISTÓRICO</button>
+<button class="menu-button" onclick="abrirModuloGeral('Compartilhar Registros')">COMPARTILHAR REGISTROS</button>
+<button class="menu-button" onclick="abrirModuloGeral('QR Code Público')">QR CODE PÚBLICO</button>
+</div>
+</section>
 
-  <section id="painel" aria-live="polite">
-    <h2 id="titulo-painel"></h2>
-    <p id="texto-painel"></p>
-    <button class="menu-button" onclick="fecharPainel()">VOLTAR</button>
-  </section>
+<section id="dryer-panel" class="hidden">
+<div class="panel-top">
+<div>
+<h2 class="panel-heading" id="dryer-title">SECADOR 01</h2>
+<p class="panel-subtitle" id="dryer-description"></p>
+</div>
+<button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button>
+</div>
+
+<div class="stats">
+<div class="stat">
+<small>SITUAÇÃO OPERACIONAL</small>
+<strong>Aguardando dados</strong>
+</div>
+<div class="stat">
+<small>ORDENS ATIVAS</small>
+<strong>—</strong>
+</div>
+<div class="stat">
+<small>SILOS VINCULADOS</small>
+<strong id="silo-count">10</strong>
+</div>
+<div class="stat">
+<small>CAPACIDADE TOTAL</small>
+<strong id="capacity">1.500 t</strong>
+</div>
+</div>
+
+<div class="panel-section">
+<h3>ÁREAS OPERACIONAIS</h3>
+<div class="module-grid">
+<button class="module" onclick="abrirModulo('Ordens de Secagem')">ORDENS DE SECAGEM<span>Cadastro e acompanhamento de ordens</span></button>
+<button class="module" onclick="abrirModulo('Silos e Estoque')">SILOS E ESTOQUE<span>Capacidade e movimentações</span></button>
+<button class="module" onclick="abrirModulo('Tickets de Recebimento')">TICKETS DE RECEBIMENTO<span>Pesagem e entrada de sementes</span></button>
+<button class="module" onclick="abrirModulo('Amostragens')">AMOSTRAGENS<span>Controle técnico a cada 15 minutos</span></button>
+<button class="module" onclick="abrirModulo('Histórico do Secador')">HISTÓRICO<span>Rastreabilidade operacional</span></button>
+</div>
+</div>
+
+<div class="panel-section" id="silo-section">
+<h3 id="silo-heading">SILOS DO SECADOR</h3>
+<div class="silo-grid" id="silo-grid"></div>
+</div>
+
+<div id="module-panel" class="hidden" aria-live="polite">
+<h3 id="module-title"></h3>
+<p id="module-description"></p>
+<div class="notice">Este módulo está preparado para receber os dados reais do Supabase. Nenhum registro operacional está sendo inventado ou armazenado nesta demonstração.</div>
+</div>
+</section>
+
+<section id="general-panel" class="hidden">
+<div class="panel-top">
+<h2 class="panel-heading" id="general-title"></h2>
+<button class="back-button" onclick="voltarInicio()">← VOLTAR AO PAINEL PRINCIPAL</button>
+</div>
+<div class="panel-section">
+<p>Área de gestão geral do Controle de Secagem.</p>
+<div class="notice">Este módulo será conectado ao banco de dados nas próximas etapas. Nenhuma informação operacional está sendo simulada.</div>
+</div>
+</section>
+
 </main>
 
 <footer>CONTROLE DE SECAGEM • SISTEMA OPERACIONAL</footer>
 
 <script>
-  function mostrarPainel(titulo, texto) {
-    document.getElementById("titulo-painel").textContent = titulo;
-    document.getElementById("texto-painel").textContent = texto;
-    document.getElementById("painel").style.display = "block";
-    document.getElementById("painel").scrollIntoView({ behavior: "smooth" });
-  }
+let secadorAtual = null;
 
-  function abrirSecador(numero) {
-    mostrarPainel(
-      "SECADOR " + String(numero).padStart(2, "0"),
-      "Área do Secador " + String(numero).padStart(2, "0") +
-      ". As funções operacionais serão conectadas nas próximas etapas."
-    );
-  }
+function ocultarTelas(){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("dryer-panel").classList.add("hidden");
+document.getElementById("general-panel").classList.add("hidden");
+}
 
-  function abrirMenu(nome) {
-    mostrarPainel(
-      nome,
-      "Módulo " + nome + ". Será configurado nas próximas etapas."
-    );
-  }
+function abrirSecador(numero){
+secadorAtual = numero;
+ocultarTelas();
 
-  function fecharPainel() {
-    document.getElementById("painel").style.display = "none";
-  }
+const titulo = "SECADOR " + String(numero).padStart(2,"0");
+document.getElementById("dryer-title").textContent = titulo;
+
+const especial = numero === 7;
+
+document.getElementById("dryer-description").textContent =
+especial
+? "Secador especial • Retirada de sementes dos silos dos Secadores 01 a 06"
+: "Painel operacional individual • " + titulo;
+
+document.getElementById("silo-count").textContent = especial ? "60 de origem" : "10";
+document.getElementById("capacity").textContent = especial ? "Sem silos próprios" : "1.500 t";
+document.getElementById("silo-heading").textContent =
+especial ? "SILOS DE ORIGEM DISPONÍVEIS" : "SILOS DO " + titulo;
+
+const grid = document.getElementById("silo-grid");
+grid.innerHTML = "";
+
+if(especial){
+for(let sec=1;sec<=6;sec++){
+for(let n=1;n<=10;n++){
+const codigo = sec*100+n;
+adicionarSilo(grid,codigo,"Origem possível");
+}
+}
+}else{
+for(let n=1;n<=10;n++){
+adicionarSilo(grid,numero*100+n,"Capacidade máxima: 150 t");
+}
+}
+
+document.getElementById("module-panel").classList.add("hidden");
+document.getElementById("dryer-panel").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function adicionarSilo(grid,codigo,descricao){
+const card = document.createElement("div");
+card.className = "silo";
+const nome = document.createElement("strong");
+nome.textContent = "SILO " + codigo;
+const detalhe = document.createElement("small");
+detalhe.textContent = descricao;
+card.appendChild(nome);
+card.appendChild(detalhe);
+grid.appendChild(card);
+}
+
+function abrirModulo(nome){
+document.getElementById("module-title").textContent = nome;
+document.getElementById("module-description").textContent =
+"Área vinculada ao SECADOR " + String(secadorAtual).padStart(2,"0") + ".";
+document.getElementById("module-panel").classList.remove("hidden");
+document.getElementById("module-panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function abrirModuloGeral(nome){
+ocultarTelas();
+document.getElementById("general-title").textContent = nome;
+document.getElementById("general-panel").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function voltarInicio(){
+secadorAtual = null;
+ocultarTelas();
+document.getElementById("home").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
 </script>
 
 </body>
